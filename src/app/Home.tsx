@@ -36,41 +36,59 @@ export default function Home() {
 
     return (
         <div>
-            <div className="mb-2">
-                <div>Latitude: {gps.lat}</div>
-                <div>Longitude: {gps.lon}</div>
-                <div>Altitude: {gps.alt}</div>
-                <div>Satellites Active: {gps.satsActive?.length || 0}</div>
+            <div>
+                <MapContainer
+                    className="h-80 w-80 md:h-96 md:w-96 rounded-t-lg"
+                    center={coordinate}
+                    zoom={35}
+                    scrollWheelZoom={false}
+                >
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={coordinate}>
+                        <Popup>Find Me</Popup>
+                    </Marker>
+                </MapContainer>
+                <a
+                    href={googleMapLink}
+                    className="bg-cyan-700 border-0 rounded-b-lg w-80 md:w-96 flex justify-center py-2"
+                >
+                    Open Map
+                </a>
                 <DisplayDate date={gps.time} />
             </div>
-            <MapContainer
-                className="h-80 w-80 md:h-96 md:w-96 rounded-t-lg"
-                center={coordinate}
-                zoom={35}
-                scrollWheelZoom={false}
-            >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            <div className="mt-2 space-y-2">
+                <Field label="Latitude" value={gps.lat} />
+                <Field label="Longitude" value={gps.lon} />
+                <Field label="Altitude" value={gps.alt} />
+                <Field
+                    label="Active Satellites"
+                    value={gps.satsActive?.length || 0}
                 />
-                <Marker position={coordinate}>
-                    <Popup>Find Me</Popup>
-                </Marker>
-            </MapContainer>
-            <a
-                href={googleMapLink}
-                className="bg-cyan-700 border-0 rounded-b-lg w-80 md:w-96 flex justify-center py-2"
-            >
-                Open Map
-            </a>
+            </div>
         </div>
     );
 }
 
 function DisplayDate({ date }: { date?: string }) {
     if (!date) {
-        return <div>Last Updated: null</div>;
+        return null;
     }
 
-    return <div>Last Updated: {new Date(date).toLocaleString()}</div>;
+    return (
+        <div className="text-xs">
+            Last Updated: {new Date(date).toLocaleString()}
+        </div>
+    );
+}
+
+function Field({ label, value }: { label: string; value: React.ReactNode }) {
+    return (
+        <div className="border border-slate-500 rounded-xl flex-col px-4 py-1">
+            <div className="font-semibold">{label}</div>
+            <div className="text-xl">{value || "--"}</div>
+        </div>
+    );
 }
