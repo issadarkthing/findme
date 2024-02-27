@@ -9,12 +9,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 export default function Home() {
-    const [gps, setGps] = useState<GPSState>({
-        errors: 1,
-        processed: 1,
-        lat: 3.0645408333333335,
-        lon: 101.45696583333333,
-    });
+    const [gps, setGps] = useState<GPSState>();
 
     useEffect(() => {
         const id = setInterval(async () => {
