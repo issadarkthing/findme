@@ -9,7 +9,12 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 export default function Home() {
-    const [gps, setGps] = useState<GPSState>();
+    const [gps, setGps] = useState<GPSState>({
+        errors: 1,
+        processed: 1,
+        lat: 3.0645408333333335,
+        lon: 101.45696583333333,
+    });
 
     useEffect(() => {
         const id = setInterval(async () => {
@@ -27,6 +32,7 @@ export default function Home() {
     }
 
     const coordinate: LatLngExpression = [gps.lat!, gps.lon!];
+    const googleMapLink = `https://www.google.com/maps/search/?api=1&query=${gps.lat},${gps.lon}`;
 
     return (
         <div>
@@ -38,9 +44,9 @@ export default function Home() {
                 <DisplayDate date={gps.time} />
             </div>
             <MapContainer
-                className="h-80 w-80 md:h-96 md:w-96"
+                className="h-80 w-80 md:h-96 md:w-96 rounded-t-lg"
                 center={coordinate}
-                zoom={40}
+                zoom={35}
                 scrollWheelZoom={false}
             >
                 <TileLayer
@@ -51,6 +57,12 @@ export default function Home() {
                     <Popup>Find Me</Popup>
                 </Marker>
             </MapContainer>
+            <a
+                href={googleMapLink}
+                className="bg-cyan-700 border-0 rounded-b-lg w-80 md:w-96 flex justify-center py-2"
+            >
+                Open Map
+            </a>
         </div>
     );
 }
