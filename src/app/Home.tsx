@@ -1,12 +1,9 @@
 "use client";
-import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
-import "leaflet-defaulticon-compatibility";
-
 import { GPSState, getGps } from "@/action/getGps";
-import { LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import dynamic from "next/dynamic";
+import Skeleton from "./Skeleton";
+const Map = dynamic(() => import("./Map"), { ssr: false });
 
 export default function Home() {
     const [gps, setGps] = useState<GPSState>();
@@ -23,37 +20,12 @@ export default function Home() {
     }, []);
 
     if (!gps) {
-        return "Loading...";
+        return <Skeleton />;
     }
-
-    const coordinate: LatLngExpression = [gps.lat!, gps.lon!];
-    const googleMapLink = `https://www.google.com/maps/search/?api=1&query=${gps.lat},${gps.lon}`;
 
     return (
         <div>
-            <div>
-                <MapContainer
-                    className="h-80 w-80 md:h-96 md:w-96 rounded-t-lg"
-                    center={coordinate}
-                    zoom={35}
-                    scrollWheelZoom={false}
-                >
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <Marker position={coordinate}>
-                        <Popup>Find Me</Popup>
-                    </Marker>
-                </MapContainer>
-                <a
-                    href={googleMapLink}
-                    className="bg-cyan-700 border-0 rounded-b-lg w-80 md:w-96 flex justify-center py-2"
-                >
-                    Open Map
-                </a>
-                <DisplayDate date={gps.time} />
-            </div>
+            <Map lat={gps.lat} lon={gps.lon} date={gps.time} />
             <div className="mt-2 space-y-2">
                 <Field label="Latitude" value={gps.lat} />
                 <Field label="Longitude" value={gps.lon} />
@@ -63,18 +35,6 @@ export default function Home() {
                     value={gps.satsActive?.length || 0}
                 />
             </div>
-        </div>
-    );
-}
-
-function DisplayDate({ date }: { date?: string }) {
-    if (!date) {
-        return null;
-    }
-
-    return (
-        <div className="text-xs">
-            Last Updated: {new Date(date).toLocaleString()}
         </div>
     );
 }

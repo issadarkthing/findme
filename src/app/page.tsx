@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic";
-const Home = dynamic(() => import("./Home"), { ssr: false });
+import Home from "./Home";
 
 export default function App() {
     return (
