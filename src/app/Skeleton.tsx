@@ -2,19 +2,8 @@ export default function Skeleton() {
     return (
         <div className="animate-pulse">
             <Map />
-            <div className="mt-2 space-y-2">
-                <Field />
-                <Field />
-                <Field />
-                <Field />
-            </div>
+            <div className="border rounded-xl border-slate-700 mt-4 p-3 space-y-2 w-full h-48" />
         </div>
-    );
-}
-
-function Field() {
-    return (
-        <div className="h-20 border border-slate-700 rounded-xl flex-col px-4 py-1"></div>
     );
 }
 
