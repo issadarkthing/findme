@@ -7,7 +7,7 @@ export default function Field({
 }) {
     return (
         <div>
-            <p className="font-semibold">{label}</p> {value}
+            <p className="font-semibold">{label}</p> {value || "---"}
         </div>
     );
 }
