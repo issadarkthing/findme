@@ -23,7 +23,12 @@ export interface GPSState {
     satsVisible?: Satellite[];
 }
 
-export async function getGps(): Promise<GPSState> {
+export async function getGps(): Promise<GPSState | null> {
     const result = await fetch(process.env.GPS_SERVER!);
+
+    if (result.status !== 200) {
+        return null;
+    }
+
     return await result.json();
 }

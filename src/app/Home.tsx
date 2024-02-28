@@ -12,7 +12,10 @@ export default function Home() {
     useEffect(() => {
         const id = setInterval(async () => {
             const data = await getGps();
-            setGps(data);
+
+            if (data) {
+                setGps(data);
+            }
         }, 5 * 1000);
 
         return () => {
