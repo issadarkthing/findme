@@ -20,7 +20,7 @@ export default function Home() {
                 setGps(gps);
 
                 if (lastUpdate) {
-                    const timeDiffInMs = Date.now() / lastUpdate;
+                    const timeDiffInMs = Date.now() - lastUpdate;
                     const timeDiffInSec = timeDiffInMs / 1000;
 
                     if (timeDiffInSec < 10) {
