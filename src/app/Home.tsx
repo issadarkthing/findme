@@ -58,7 +58,8 @@ export default function Home() {
                     {gps.lon || "---"}
                 </div>
                 <div>
-                    <p className="font-semibold">Altitude</p> {gps.alt || "---"}
+                    <p className="font-semibold">Altitude</p>{" "}
+                    {gps.alt ? `${gps.alt}m` : "---"}
                 </div>
                 <div>
                     <p className="font-semibold">Active Satellites</p>{" "}
@@ -76,16 +77,6 @@ function DeviceStatus({
     status: "offline" | "online";
     gps?: GPSState;
 }) {
-    let gpsStatus = "gps detected";
-
-    if (!gps || !gps.satsActive) {
-        gpsStatus = "no satellite detected";
-    } else if (gps.satsActive < 3) {
-        gpsStatus = "weak satellite signal";
-    } else if (!gps.lat || !gps.lon) {
-        gpsStatus = "trying to detect location";
-    }
-
     return (
         <div className="flex gap-2 items-center">
             <span className="relative flex h-3 w-3">
@@ -98,7 +89,7 @@ function DeviceStatus({
                     } relative inline-flex rounded-full h-3 w-3`}
                 />
             </span>
-            {status || "---"} ({gpsStatus})
+            {status || "---"}
         </div>
     );
 }
