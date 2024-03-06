@@ -76,9 +76,13 @@ function DisplayDate({ date }: { date?: number }) {
         return null;
     }
 
+    const dt = new Date(date);
+    const displayDate = `${dt.getDate()}/${
+        dt.getMonth() + 1
+    }/${dt.getFullYear()}`;
+    const time = dt.toLocaleTimeString();
+
     return (
-        <div className="text-xs">
-            Last Updated: {new Date(date).toLocaleString()}
-        </div>
+        <div className="text-xs">Last Updated: {`${displayDate} ${time}`}</div>
     );
 }

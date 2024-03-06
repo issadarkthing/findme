@@ -1,6 +1,7 @@
 "use client";
 import { GPSState, getGps } from "@/action/getGps";
 import { useEffect, useState } from "react";
+import moment from "moment";
 import dynamic from "next/dynamic";
 import Loading from "./Loading";
 const Map = dynamic(() => import("./Map"), { ssr: false });
@@ -48,7 +49,7 @@ export default function Home() {
             <div className="border rounded-xl border-slate-800 mt-2 p-3 space-y-2">
                 <div>
                     <p className="font-semibold">Device Status</p>
-                    <DeviceStatus status={deviceStatus} />
+                    <DeviceStatus gps={gps} status={deviceStatus} />
                 </div>
                 <div>
                     <p className="font-semibold">Latitude</p> {gps.lat || "---"}
@@ -77,6 +78,13 @@ function DeviceStatus({
     status: "offline" | "online";
     gps?: GPSState;
 }) {
+    let lastUpdate = "";
+
+    if (status === "offline" && gps?.lastUpdate) {
+        const dt = moment(gps.lastUpdate);
+        lastUpdate = `(${dt.fromNow()})`;
+    }
+
     return (
         <div className="flex gap-2 items-center">
             <span className="relative flex h-3 w-3">
@@ -89,7 +97,7 @@ function DeviceStatus({
                     } relative inline-flex rounded-full h-3 w-3`}
                 />
             </span>
-            {status || "---"}
+            {status || "---"} {lastUpdate}
         </div>
     );
 }
