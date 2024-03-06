@@ -16,15 +16,15 @@ export default function Home() {
             const data = await getGps();
 
             if (data) {
-                const { gps, lastUpdate } = data;
+                setGps(data);
 
-                setGps(gps);
+                const { lastUpdate } = data;
 
                 if (lastUpdate) {
                     const timeDiffInMs = Date.now() - lastUpdate;
                     const timeDiffInSec = timeDiffInMs / 1000;
 
-                    if (timeDiffInSec < 10) {
+                    if (timeDiffInSec < 45) {
                         setDeviceStatus("online");
                     } else {
                         setDeviceStatus("offline");
@@ -44,7 +44,7 @@ export default function Home() {
 
     return (
         <div>
-            <Map lat={gps.lat} lon={gps.lon} date={gps.time} />
+            <Map lat={gps.lat} lon={gps.lon} date={gps.lastUpdate} />
             <div className="border rounded-xl border-slate-800 mt-2 p-3 space-y-2">
                 <div>
                     <p className="font-semibold">Device Status</p>
@@ -62,7 +62,7 @@ export default function Home() {
                 </div>
                 <div>
                     <p className="font-semibold">Active Satellites</p>{" "}
-                    {gps.satsActive?.length || "---"}
+                    {gps.satsActive == null ? "---" : gps.satsActive}
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@ function DeviceStatus({
 
     if (!gps || !gps.satsActive) {
         gpsStatus = "no satellite detected";
-    } else if (gps.satsActive.length < 3) {
+    } else if (gps.satsActive < 3) {
         gpsStatus = "weak satellite signal";
     } else if (!gps.lat || !gps.lon) {
         gpsStatus = "trying to detect location";

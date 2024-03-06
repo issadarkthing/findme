@@ -11,7 +11,7 @@ export default function Map({
 }: {
     lat?: number;
     lon?: number;
-    date?: string;
+    date?: number;
 }) {
     if (!lat || !lon) {
         return (
@@ -71,7 +71,7 @@ export default function Map({
     );
 }
 
-function DisplayDate({ date }: { date?: string }) {
+function DisplayDate({ date }: { date?: number }) {
     if (!date) {
         return null;
     }
