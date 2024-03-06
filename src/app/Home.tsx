@@ -2,7 +2,7 @@
 import { GPSState, getGps } from "@/action/getGps";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import Skeleton from "./Skeleton";
+import Loading from "./Loading";
 const Map = dynamic(() => import("./Map"), { ssr: false });
 
 export default function Home() {
@@ -39,7 +39,7 @@ export default function Home() {
     }, []);
 
     if (!gps) {
-        return <Skeleton />;
+        return <Loading />;
     }
 
     return (
