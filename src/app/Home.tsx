@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import Loading from "./Loading";
+import formatcoords from "formatcoords";
 const Map = dynamic(() => import("./Map"), { ssr: false });
 
 export default function Home() {
@@ -43,6 +44,12 @@ export default function Home() {
         return <Loading />;
     }
 
+    let coordinate = "---";
+
+    if (gps.lat && gps.lon) {
+        coordinate = formatcoords([gps.lat, gps.lon]).format();
+    }
+
     return (
         <div>
             <Map lat={gps.lat} lon={gps.lon} date={gps.lastUpdate} />
@@ -52,11 +59,8 @@ export default function Home() {
                     <DeviceStatus gps={gps} status={deviceStatus} />
                 </div>
                 <div>
-                    <p className="font-semibold">Latitude</p> {gps.lat || "---"}
-                </div>
-                <div>
-                    <p className="font-semibold">Longitude</p>{" "}
-                    {gps.lon || "---"}
+                    <p className="font-semibold">Coordinate</p>
+                    {coordinate}
                 </div>
                 <div>
                     <p className="font-semibold">Altitude</p>{" "}
@@ -97,7 +101,7 @@ function DeviceStatus({
                     } relative inline-flex rounded-full h-3 w-3`}
                 />
             </span>
-            {status || "---"} {lastUpdate}
+            {status}
         </div>
     );
 }
