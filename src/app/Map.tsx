@@ -2,7 +2,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
 import { LatLngExpression } from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 
 export default function Map({
     lat,
@@ -48,7 +48,7 @@ export default function Map({
                 className="h-80 w-80 md:h-96 md:w-96 rounded-t-lg"
                 center={coordinate}
                 zoom={35}
-                scrollWheelZoom={false}
+                scrollWheelZoom={true}
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -57,6 +57,7 @@ export default function Map({
                 <Marker position={coordinate}>
                     <Popup>Find Me</Popup>
                 </Marker>
+                <Control position={coordinate} />
             </MapContainer>
             <a
                 href={googleMapLink}
@@ -69,6 +70,13 @@ export default function Map({
             </div>
         </>
     );
+}
+
+// recenter position on location update
+function Control({ position }: { position: LatLngExpression }) {
+    const map = useMap();
+    map.setView(position);
+    return null;
 }
 
 function DisplayDate({ date }: { date?: number }) {
