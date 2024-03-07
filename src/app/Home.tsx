@@ -62,13 +62,15 @@ export default function Home() {
                     <p className="font-semibold">Coordinate</p>
                     {coordinate}
                 </div>
-                <div>
-                    <p className="font-semibold">Altitude</p>{" "}
-                    {gps.alt ? `${gps.alt}m` : "---"}
-                </div>
-                <div>
-                    <p className="font-semibold">Active Satellites</p>{" "}
-                    {gps.satsActive == null ? "---" : gps.satsActive}
+                <div className="flex gap-4">
+                    <div>
+                        <p className="font-semibold">Altitude</p>{" "}
+                        {gps.alt ? `${gps.alt}m` : "---"}
+                    </div>
+                    <div>
+                        <p className="font-semibold">Active Satellites</p>{" "}
+                        {gps.satsActive == null ? "---" : gps.satsActive}
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,7 +103,7 @@ function DeviceStatus({
                     } relative inline-flex rounded-full h-3 w-3`}
                 />
             </span>
-            {status}
+            {status} {lastUpdate}
         </div>
     );
 }
