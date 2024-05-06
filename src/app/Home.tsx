@@ -65,7 +65,7 @@ export default function Home() {
                 <div className="flex gap-4">
                     <div>
                         <p className="font-semibold">Altitude</p>{" "}
-                        {gps.alt ? `${gps.alt}m` : "---"}
+                        {gps.alt ? `${gps.alt.toFixed(1)}m` : "---"}
                     </div>
                     <div>
                         <p className="font-semibold">Active Satellites</p>{" "}
