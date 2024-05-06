@@ -51,7 +51,7 @@ export default function Home() {
     }
 
     return (
-        <div>
+        <div className="flex flex-col items-center">
             <Map lat={gps.lat} lon={gps.lon} date={gps.lastUpdate} />
             <div className="border rounded-xl border-slate-800 mt-2 p-3 space-y-2">
                 <div>
